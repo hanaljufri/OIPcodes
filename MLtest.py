@@ -3,8 +3,18 @@ import json
 import re
 from pathlib import Path
 
+from picamera import PiCamera
+from time import sleep
+
+cam = PiCamera()
+cam.start_preview()
+sleep(5)
+cam.stop_preview()
+photostr = '/home/pi/Downloads/ML_test/img.jpg'
+cam.capture(photostr)
+
 file_paths = [
-    os.path.join(Path().absolute(),'clean.jpg')
+    os.path.join(Path().absolute(),'img.jpg')
 ]
 project_Id = '1fe4c61f-e2d4-4bc3-96aa-9200a5365fc9'
 coder="""curl --silent --request POST\
@@ -24,5 +34,6 @@ if len(results)==0:
     pass
 elif len(results)>0:
     results = json.loads(results)
-    print(len(results))
-    print([result["text"] for result in results])
+    #print(len(results))
+    printed = [result["text"] for result in results]
+    print(printed)
